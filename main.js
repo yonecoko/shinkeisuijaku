@@ -3,6 +3,11 @@ const cardArea = document.querySelector(".gameArea");
 let numArr = [];
 let pair = [];
 
+let pairCount1 = 0;
+let pairCount2 = 0;
+
+const player = ["player1", "player2"];
+
 const createCards = function () {
   for (let i = 0; i < 8; i++) {
     const card = document.createElement("div");
@@ -62,6 +67,10 @@ const btn = function () {
               }
             }, 500);
           }, 500);
+
+          // while (pair[0] === pair[1]) {
+          //   count1++;
+          // }
         } else {
           setTimeout(() => {
             fronts.map((front) => {
@@ -80,3 +89,25 @@ const btn = function () {
 createCards();
 createNum(4);
 btn();
+
+// if (pair[0] === pair[1])=> true のときに処理を追加する
+
+const match = function () {
+  const info = document.createElement("div");
+  cardArea.appendChild(info);
+
+  for (let i = 0; i < 3; i++) {
+    const p = document.createElement("p");
+    info.appendChild(p);
+
+    if (i === 0) {
+      p.textContent = `次は${player[0]}番です。`;
+    } else if (i === 1) {
+      p.textContent = `player1:${pairCount1}`;
+    } else {
+      p.textContent = `player2:${pairCount2}`;
+    }
+  }
+};
+
+match();
