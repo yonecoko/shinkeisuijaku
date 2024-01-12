@@ -3,11 +3,6 @@ const cardArea = document.querySelector(".gameArea");
 let numArr = [];
 let pair = [];
 
-let pairCount1 = 0;
-let pairCount2 = 0;
-
-const player = ["player1", "player2"];
-
 const createCards = function () {
   for (let i = 0; i < 8; i++) {
     const card = document.createElement("div");
@@ -68,9 +63,7 @@ const btn = function () {
             }, 500);
           }, 500);
 
-          // while (pair[0] === pair[1]) {
-          //   count1++;
-          // }
+          CountUp();
         } else {
           setTimeout(() => {
             fronts.map((front) => {
@@ -79,8 +72,9 @@ const btn = function () {
             });
             deletePair();
           }, 500);
+
+          turn();
         }
-        // console.log(count);
       }
     });
   }
@@ -90,24 +84,46 @@ createCards();
 createNum(4);
 btn();
 
-// if (pair[0] === pair[1])=> true のときに処理を追加する
+// 2人で対戦するチャレンジ問題
+let playerCount1 = 0;
+let playerCount2 = 0;
+let turnNum = 0;
+const player = ["player1", "player2"];
 
-const match = function () {
-  const info = document.createElement("div");
-  cardArea.appendChild(info);
+// 対戦情報
+const info = document.createElement("div");
+cardArea.appendChild(info);
 
-  for (let i = 0; i < 3; i++) {
-    const p = document.createElement("p");
-    info.appendChild(p);
+const turnText = document.createElement("p");
+const player1Text = document.createElement("p");
+const player2Text = document.createElement("p");
 
-    if (i === 0) {
-      p.textContent = `次は${player[0]}番です。`;
-    } else if (i === 1) {
-      p.textContent = `player1:${pairCount1}`;
-    } else {
-      p.textContent = `player2:${pairCount2}`;
-    }
+info.appendChild(turnText);
+info.appendChild(player1Text);
+info.appendChild(player2Text);
+
+turnText.textContent = `次は${player[0]}番です。`;
+player1Text.textContent = `player1:${playerCount1}`;
+player2Text.textContent = `player2:${playerCount2}`;
+
+// プレイヤーの交代
+const turn = function () {
+  turnNum++;
+
+  if (turnNum % 2 === 0) {
+    turnText.textContent = `次は${player[0]}番です。`;
+  } else {
+    turnText.textContent = `次は${player[1]}番です。`;
   }
 };
 
-match();
+// それぞれのプレイヤーのカウントアップ
+const CountUp = function () {
+  if (turnNum % 2 === 0) {
+    ++playerCount1;
+    player1Text.textContent = `player1:${playerCount1}`;
+  } else {
+    ++playerCount2;
+    player2Text.textContent = `player2:${playerCount2}`;
+  }
+};
