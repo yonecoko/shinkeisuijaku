@@ -3,6 +3,7 @@ const cardArea = document.querySelector(".gameArea");
 let numArr = [];
 let pair = [];
 
+// カードを8枚作成
 const createCards = function () {
   for (let i = 0; i < 8; i++) {
     const card = document.createElement("div");
@@ -11,6 +12,7 @@ const createCards = function () {
   }
 };
 
+// カードの数字をシャッフル
 const shaffleCard = function (shaffleArr) {
   for (let i = shaffleArr.length - 1; 0 < i; i--) {
     let r = Math.floor(Math.random() * (i + 1));
@@ -22,6 +24,7 @@ const shaffleCard = function (shaffleArr) {
   return shaffleArr;
 };
 
+// 数字を生成
 const createNum = function (length) {
   for (let i = 0; i < length; i++) {
     numArr.push(i + 1);
@@ -31,23 +34,29 @@ const createNum = function (length) {
   shaffleCard(numArr);
 };
 
+// 変数pairの中身を削除
 const deletePair = function () {
   pair.pop();
   pair.pop();
 };
 
+// カードをクリックする時の処理
 const btn = function () {
   const backs = Array.from(document.querySelectorAll(".back"));
   let count = 0;
 
+  // どれかのカードをクリックしたら数字を表示、class名を"front"
   for (let i = 0, back; (back = backs[i]); i++) {
     back.addEventListener("click", function () {
       backs[i].textContent = numArr[i];
       backs[i].classList = "front";
       pair.push(numArr[i]);
 
+      // 変数pairの要素が2になったら
       if (pair.length === 2) {
         const fronts = Array.from(document.querySelectorAll(".front"));
+
+        // pairの要素が一致したら、class名を"finish"
         if (pair[0] === pair[1]) {
           setTimeout(() => {
             fronts[0].classList = "finish";
@@ -55,6 +64,7 @@ const btn = function () {
             deletePair();
             count++;
 
+            // カードの要素がなくなったらアラートと画面リロード
             setTimeout(() => {
               if (count === 4) {
                 alert("終了です");
@@ -63,8 +73,10 @@ const btn = function () {
             }, 500);
           }, 500);
 
+          // プレイヤーのカウントを追加
           CountUp();
         } else {
+          // 要素が一致しなかったらclass名を"back"
           setTimeout(() => {
             fronts.map((front) => {
               front.classList = "back";
@@ -73,6 +85,7 @@ const btn = function () {
             deletePair();
           }, 500);
 
+          // プレイヤーを交代
           turn();
         }
       }
